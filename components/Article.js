@@ -95,22 +95,76 @@ const data = [
   and returns a DOM node looking like the one below:
 
   <div class="article">
+
     <h2>{title of the article}</h2>
+
     <p class="date">{date of the article}</p>
 
     {three separate paragraph elements}
 
     <span class="expandButton">+</span>
-  </div>
+
+    </div>
 
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
   This listener should toggle the class 'article-open' on div.article.
 
   Step 3: Don't forget to return something from your function!
 
-  Step 4: Outside your function now, loop over the data. At each iteration you'll use your component
-  to create a div.article element and append it to the DOM inside div.articles (see index.html).
+  Step 4: Outside your function now, loop over the data. At each iteration you'll use your component to create a div.article element and append it to the DOM inside div.articles (see index.html).
 
-  Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
-  Refresh the page to see the new article.
+  Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.  Refresh the page to see the new article.
 */
+
+function articleMaker (articleObj) {
+  
+  // 1
+  // Create
+  const article = document.createElement('div');
+  const title = document.createElement('h2');
+  const date = document.createElement('p');
+  const para1 = document.createElement('p');
+  const para2 = document.createElement('p');
+  const para3 = document.createElement('p');
+  const buttonSpan = document.createElement('span');
+
+  // Append
+  article.appendChild(title);
+  article.appendChild(date);
+  article.appendChild(para1);
+  article.appendChild(para2);
+  article.appendChild(para3);
+  article.appendChild(buttonSpan);
+
+  // Add Class
+  article.classList.add('article');
+  date.classList.add('date');
+  buttonSpan.classList.add('expandButton');
+
+  // Add Text Content
+  title.textContent = articleObj.title;
+  date.textContent = articleObj.date;
+  para1.textContent = articleObj.firstParagraph;
+  para2.textContent = articleObj.secondParagraph;
+  para3.textContent = articleObj.thirdParagraph;
+  buttonSpan.textContent = '+';
+
+  // 2
+  // Add Event Listener
+  buttonSpan.addEventListener('click', () => {
+    article.classList.toggle('article-open'); // No period for class names in class list
+  })
+
+  // 3
+  return article;
+
+}
+
+// 4
+data.forEach (element => {
+  const articleDiv = articleMaker(element); 
+    // console.log('ARTICLE TEST 1: ', articleDiv);
+  const insertHere = document.querySelector('div.articles');
+    console.log('ARTICLE TEST 2: ', insertHere);
+  insertHere.appendChild(articleDiv);
+});
